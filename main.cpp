@@ -9,16 +9,17 @@
 using namespace std;
 int V;
 int E;
-unsigned long long solution;
+unsigned long long maxcost;
 vector<int> upper;
 map<tuple<int,int>,int> graph;
+
 void processInput(){
-    int a,b, w;
+    int a=0,b=0, w=0;
     tuple <int,int> path;
-    scanf("%d\n",&V);
-    scanf("%d\n",&E);
-    for(int i = 1; i < V;i++) {
-        upper[i] = i;
+    cin >> V;
+    cin >> E;
+    for (int i = 1; i <= V; i++){
+        upper.push_back(i);
     }
     for(int i = 1; i < E;i++){
         scanf("%d %d %d\n",&a,&b,&w);
@@ -34,18 +35,52 @@ int find(int i){
     return i;
 }
 
-void uni (int i, int j)
-{
+void uni(int i, int j){
     int a = find(i);
     int b = find(j);
     upper[a] = b;
 }
+bool cmp(pair<tuple<int,int>, int>& a,
+         pair<tuple<int,int>, int>& b){
+    return a.second < b.second;
+}
 
+
+void sort(map <tuple<int,int>, int>& Map){
+
+    vector<pair<tuple<int,int>, int> > Vec;
+    for (auto& it : Map) {
+        Vec.emplace_back(it);
+    }
+    sort(Vec.begin(), Vec.end(), cmp);
+
+
+}
+
+void getmaxcost(){
+
+    // Include minimum weight edges one by one
+    int edge_count = 0;
+    while (edge_count < V - 1) {
+        int max = 0, a = -1, b = -1;
+        for( auto x : graph)
+            if (find(get<0>(x.first)) != find(get<1>(x.first)) && x.second > max) {
+                max = x.second;
+                a = get<0>(x.first);
+                b = get<1>(x.first);
+            }
+        uni(a, b);
+        edge_count++;
+         maxcost += max;
+    }
+    printf("Max cost= %llu \n", maxcost);
+}
 
 
 
 int main(){
     processInput();
+    getmaxcost();
     return 0;
 }
 
