@@ -62,7 +62,7 @@ void getmaxcost(){
     int max = 0, a = -1, b = -1;
 
     for(auto & i : Vec) {
-        if (find(get<0>(i.first)) != find(get<1>(i.first)) && i.second > max) {
+        if (find(get<0>(i.first)-1) != find(get<1>(i.first)-1) ) {
             max = i.second;
             a = get<0>(i.first);
             b = get<1>(i.first);
