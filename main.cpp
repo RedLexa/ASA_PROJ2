@@ -41,8 +41,8 @@ int find(int i){
 }
 
 void uni(int i, int j){
-    int a = find(i);
-    int b = find(j);
+    int a = find(i-1);
+    int b = find(j-1);
     upper[a] = b;
 }
 bool cmp(pair<tuple<int,int>, int>& a,
