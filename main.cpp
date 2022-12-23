@@ -29,33 +29,33 @@ void processInput(){
         graph.insert({path,w});
     }
     for (int i = 0; i < V; i++){
-        upper.push_back(i);
+        upper.push_back(-1);
         rankV.push_back(1);
     }
 
 }
 
 int find(int i){
-    while(upper[i] != i){
-        i = upper[i];
-    }
-    return i;
+    if (upper[i] == -1)
+        return i;
+
+    return upper[i] = find(upper[i]);
 }
 
 void uni(int i, int j){
-    int a = find(i-1);
-    int b = find(j-1);
+    int a = find(i);
+    int b = find(j);
 
     if (a != b) {
-        if (rankV[a-1] < rankV[b-1]) {
-            upper[a-1] = b;
+        if (rankV[a] < rankV[b]) {
+            upper[a] = b;
         }
         else if (rankV[a-1] > rankV[b-1]) {
-            upper[b-1] = a;
+            upper[b] = a;
         }
         else {
-            upper[b-1] = a;
-            rankV[a-1] += 1;
+            upper[b] = a;
+            rankV[a] += 1;
         }
     }
 }
@@ -74,7 +74,7 @@ void getmaxcost(){
 
     for(auto & i : Vec) {
         if (find(get<0>(i.first)-1) != find(get<1>(i.first)-1)) {
-            uni(get<0>(i.first), get<1>(i.first));
+            uni(get<0>(i.first)-1, get<1>(i.first)-1);
             maxcost += i.second;
         }
 
