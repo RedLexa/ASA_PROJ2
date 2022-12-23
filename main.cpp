@@ -11,6 +11,7 @@ int V;
 int E;
 unsigned long long maxcost;
 vector<int> upper;
+vector<int> rankV;
 map<tuple<int,int>,int> graph;
 
 void processInput(){
@@ -29,6 +30,7 @@ void processInput(){
     }
     for (int i = 0; i < V; i++){
         upper.push_back(i);
+        rankV[i]=-1;
     }
 
 }
@@ -43,7 +45,19 @@ int find(int i){
 void uni(int i, int j){
     int a = find(i-1);
     int b = find(j-1);
-    upper[a] = b;
+
+    if (a != b) {
+        if (rankV[a-1] < rankV[b-1]) {
+            upper[a-1] = b;
+        }
+        else if (rankV[a-1] > rankV[b-1]) {
+            upper[b-1] = a;
+        }
+        else {
+            upper[b-1] = a;
+            rankV[a-1] += 1;
+        }
+    }
 }
 bool cmp(pair<tuple<int,int>, int>& a,
          pair<tuple<int,int>, int>& b){
@@ -62,7 +76,7 @@ void getmaxcost(){
     int max = 0, a = -1, b = -1;
 
     for(auto & i : Vec) {
-        if (find(get<0>(i.first)-1) != find(get<1>(i.first)-1) ) {
+        if (find(get<0>(i.first)-1) != find(get<1>(i.first)-1)) {
             max = i.second;
             a = get<0>(i.first);
             b = get<1>(i.first);
