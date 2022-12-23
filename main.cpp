@@ -27,7 +27,7 @@ void processInput(){
         path = make_tuple(a,b);
         graph.insert({path,w});
     }
-    for (int i = 1; i <= V; i++){
+    for (int i = 0; i < V; i++){
         upper.push_back(i);
     }
 
@@ -47,7 +47,7 @@ void uni(int i, int j){
 }
 bool cmp(pair<tuple<int,int>, int>& a,
          pair<tuple<int,int>, int>& b){
-    return a.second < b.second;
+    return a.second > b.second;
 }
 
 void getmaxcost(){
@@ -56,22 +56,22 @@ void getmaxcost(){
     for (auto& it : graph) {
         Vec.emplace_back(it);
     }
-    sort(Vec.end(), Vec.begin(), cmp);
+    sort(Vec.begin(), Vec.end(), cmp);
 
     // Include minimum weight edges one by one
-    int edge_count = 0;
-    while (edge_count < V - 1) {
-        int max = 0, a = -1, b = -1;
-        for( auto x : graph)
-            if (find(get<0>(x.first)) != find(get<1>(x.first)) && x.second > max) {
-                max = x.second;
-                a = get<0>(x.first);
-                b = get<1>(x.first);
-            }
+    int max = 0, a = -1, b = -1;
+
+    for(auto & i : Vec) {
+        if (find(get<0>(i.first)) != find(get<1>(i.first)) && i.second > max) {
+            max = i.second;
+            a = get<0>(i.first);
+            b = get<1>(i.first);
+        }
         uni(a, b);
-        edge_count++;
-         maxcost += max;
+        maxcost += max;
     }
+
+
     printf("Max cost= %llu \n", maxcost);
 }
 
