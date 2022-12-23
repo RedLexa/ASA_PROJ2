@@ -30,7 +30,7 @@ void processInput(){
     }
     for (int i = 0; i < V; i++){
         upper.push_back(i);
-        rankV[i]=-1;
+        rankV.push_back(1);
     }
 
 }
@@ -72,21 +72,13 @@ void getmaxcost(){
     }
     sort(Vec.begin(), Vec.end(), cmp);
 
-    // Include minimum weight edges one by one
-    int max = 0, a = -1, b = -1;
-
     for(auto & i : Vec) {
         if (find(get<0>(i.first)-1) != find(get<1>(i.first)-1)) {
-            max = i.second;
-            a = get<0>(i.first);
-            b = get<1>(i.first);
+            uni(get<0>(i.first), get<1>(i.first));
+            maxcost += i.second;
         }
-        uni(a, b);
-        maxcost += max;
+
     }
-
-
-    printf("Max cost= %llu \n", maxcost);
 }
 
 
@@ -94,6 +86,7 @@ void getmaxcost(){
 int main(){
     processInput();
     getmaxcost();
+    printf("%llu\n", maxcost);
     return 0;
 }
 
