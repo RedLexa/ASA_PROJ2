@@ -18,14 +18,19 @@ void processInput(){
     tuple <int,int> path;
     cin >> V;
     cin >> E;
-    for (int i = 1; i <= V; i++){
-        upper.push_back(i);
-    }
-    for(int i = 1; i < E;i++){
-        scanf("%d %d %d\n",&a,&b,&w);
+    for(int i = 0; i < 6;i++){
+        cin >> a;
+        cin.ignore();
+        cin >> b;
+        cin.ignore();
+        cin >> w;
         path = make_tuple(a,b);
         graph.insert({path,w});
     }
+    for (int i = 1; i <= V; i++){
+        upper.push_back(i);
+    }
+
 }
 
 int find(int i){
@@ -45,19 +50,13 @@ bool cmp(pair<tuple<int,int>, int>& a,
     return a.second < b.second;
 }
 
-
-void sort(map <tuple<int,int>, int>& Map){
+void getmaxcost(){
 
     vector<pair<tuple<int,int>, int> > Vec;
-    for (auto& it : Map) {
+    for (auto& it : graph) {
         Vec.emplace_back(it);
     }
-    sort(Vec.begin(), Vec.end(), cmp);
-
-
-}
-
-void getmaxcost(){
+    sort(Vec.end(), Vec.begin(), cmp);
 
     // Include minimum weight edges one by one
     int edge_count = 0;
