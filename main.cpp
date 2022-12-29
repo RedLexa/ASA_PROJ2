@@ -61,10 +61,6 @@ bool cmp(pair<tuple<int,int>, int>& a,
 }
 
 void getmaxcost(){
-    vector<pair<tuple<int,int>, int> > Vec;
-    for (auto& it : graph) {
-        Vec.emplace_back(it);
-    }
     sort(Vec.begin(), Vec.end(), cmp);
     for(auto & i : Vec) {
         if (find(get<0>(i.first)-1) != find(get<1>(i.first)-1)) {
