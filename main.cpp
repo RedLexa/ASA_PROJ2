@@ -12,21 +12,17 @@ int E;
 unsigned long long maxcost;
 vector<int> upper;
 vector<int> rankV;
-map<tuple<int,int>,int> graph;
+vector<pair<tuple<int,int>, int> > Vec;
 
 void processInput(){
     int a=0,b=0, w=0;
     tuple <int,int> path;
-    cin >> V;
-    cin >> E;
+    scanf("%d\n", &V);
+    scanf("%d\n", &E);
     for(int i = 0; i < E;i++){
-        cin >> a;
-        cin.ignore();
-        cin >> b;
-        cin.ignore();
-        cin >> w;
+        scanf("%d %d %d\n",&a,&b,&w);
         path = make_tuple(a,b);
-        graph.insert({path,w});
+        Vec.emplace_back(path,w);
     }
     for (int i = 0; i < V; i++){
         upper.push_back(-1);
@@ -63,11 +59,9 @@ bool cmp(pair<tuple<int,int>, int>& a,
     return a.second > b.second;
 }
 
+
 void getmaxcost(){
-    vector<pair<tuple<int,int>, int> > Vec;
-    for (auto& it : graph) {
-        Vec.emplace_back(it);
-    }
+
     sort(Vec.begin(), Vec.end(), cmp);
     for(auto & i : Vec) {
         if (find(get<0>(i.first)-1) != find(get<1>(i.first)-1)) {
